@@ -1,0 +1,8 @@
+{
+  "name": "open-dock-api",
+  "version": "1.0.0",
+  "description": "api for open-dock",
+  "main": "app.js",
+  "author": "Nikita Tysiachnyi",
+  "license": "MIT"
+}
