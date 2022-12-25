@@ -9,6 +9,10 @@ const DocumentationSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  projectId: {
+    type: String,
+    required: true,
+  },
 });
 
 module.exports = mongoose.model("DocumentationSchema", DocumentationSchema);
