@@ -1,16 +1,16 @@
 const express = require("express");
 const authRoute = require("./src/routes/auth.js");
+const projectRoute = require("./src/routes/project.js");
 const connectToDB = require("./src/utils/config.js");
 const PORT = 7777;
 
 // INIT APP
 const app = express();
+connectToDB();
 app.use(express.json());
 
-// CONNECT TO DB
-connectToDB();
-
 app.use("/api/auth", authRoute);
+app.use("/api/project", projectRoute);
 
 // LISTEN TO PORT
 app.listen(PORT, () => {

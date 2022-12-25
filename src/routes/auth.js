@@ -1,8 +1,11 @@
 const router = require("express").Router();
-const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const UserSchema = require("../models/User.js");
 
+function generateToken() {
+  return Math.floor(1000000000000000 + Math.random() * 9000000000000000)
+      .toString(36).substr(0, 10)
+}
 // REGISTER
 router.post("/register", async (req, res) => {
   try {
@@ -32,10 +35,11 @@ router.post("/login", async (req, res) => {
 
     const validated = await bcrypt.compare(req.body.password, user.password);
     !validated && res.status(400).json("Wrong credentials!");
+    const token = generateToken()
 
     const { password, ...others } = user._doc;
 
-    res.status(200).json(others);
+    res.status(200).json({...others, token});
   } catch (err) {
     res.status(500).json(err);
   }
