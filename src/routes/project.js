@@ -43,4 +43,20 @@ router.get("/:id", async (req, res) => {
   }
 });
 
+// GET ALL PROJECT
+router.get("/", async (req, res) => {
+  let projects;
+  try {
+    if (req.query.authorId) {
+      console.log(req.query.authorId);
+      projects = await Project.find({ authorId: { $eq: req.query.authorId } });
+    } else {
+      projects = await Project.find();
+    }
+    res.status(200).json(projects);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+});
+
 module.exports = router;
