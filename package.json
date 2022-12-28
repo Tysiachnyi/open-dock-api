@@ -5,8 +5,9 @@
   "main": "app.js",
   "author": "Nikita Tysiachnyi",
   "scripts": {
-    "start": "nodemon app.js",
-    "debug": "nodemon --inspect app.js"
+    "start": "node index.js",
+    "dev": "nodemon app.js",
+    "dev debug": "nodemon --inspect app.js"
   },
   "license": "MIT",
   "dependencies": {
