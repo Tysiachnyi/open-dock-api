@@ -9,6 +9,10 @@ const app = express();
 connectToDB();
 app.use(express.json());
 
+app.get("/api/check", async (req, res) => {
+  res.status(200).json("All work fine");
+});
+
 app.use("/api/auth", authRoute);
 app.use("/api/project", projectRoute);
 
