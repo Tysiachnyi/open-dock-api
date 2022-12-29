@@ -1,9 +1,9 @@
 const router = require("express").Router();
-const Project = require("../models/Project");
+const ProjectSchema = require("../models/Project");
 
 // CREATE PROJECT
 router.post("/create", async (req, res) => {
-  const newProject = new Project(req.body);
+  const newProject = new ProjectSchema(req.body);
   try {
     const savedProject = await newProject.save();
     res.status(200).json(savedProject);
@@ -15,9 +15,9 @@ router.post("/create", async (req, res) => {
 // UPDATE PROJECT
 router.put("/update/:id", async (req, res) => {
   try {
-    const project = await Project.findById(req.params.id);
+    const project = await ProjectSchema.findById(req.params.id);
     if (project.authorId === req.body.authorId) {
-      const updatedProject = await Project.findByIdAndUpdate(
+      const updatedProject = await ProjectSchema.findByIdAndUpdate(
         req.params.id,
         {
           $set: req.body,
@@ -36,7 +36,7 @@ router.put("/update/:id", async (req, res) => {
 // GET PROJECT
 router.get("/:id", async (req, res) => {
   try {
-    const project = await Project.findById(req.params.id);
+    const project = await ProjectSchema.findById(req.params.id);
     res.status(200).json(project);
   } catch (error) {
     res.status(500).json(error);
@@ -49,9 +49,11 @@ router.get("/", async (req, res) => {
   try {
     if (req.query.authorId) {
       console.log(req.query.authorId);
-      projects = await Project.find({ authorId: { $eq: req.query.authorId } });
+      projects = await ProjectSchema.find({
+        authorId: { $eq: req.query.authorId },
+      });
     } else {
-      projects = await Project.find();
+      projects = await ProjectSchema.find();
     }
     res.status(200).json(projects);
   } catch (error) {
