@@ -1,11 +1,8 @@
 const router = require("express").Router();
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 const UserSchema = require("../models/User.js");
 
-function generateToken() {
-  return Math.floor(1000000000000000 + Math.random() * 9000000000000000)
-      .toString(36).substr(0, 10)
-}
 // REGISTER
 router.post("/register", async (req, res) => {
   try {
@@ -31,15 +28,25 @@ router.post("/login", async (req, res) => {
     const user = await UserSchema.findOne({
       email: req.body.email,
     });
-    !user && res.status(400).json("Wrong credentials!");
-
     const validated = await bcrypt.compare(req.body.password, user.password);
-    !validated && res.status(400).json("Wrong credentials!");
-    const token = generateToken()
+    if (!user || !validated) {
+      return res.status(400).json("Wrong credentials!");
+    }
 
-    const { password, ...others } = user._doc;
+    const token = jwt.sign(
+      {
+        userId: user._id,
+        userEmail: user.email,
+      },
+      "RANDOM-TOKEN",
+      { expiresIn: "24h" }
+    );
 
-    res.status(200).json({...others, token});
+    res.status(200).send({
+      message: "Login Successful",
+      email: user.email,
+      token,
+    });
   } catch (err) {
     res.status(500).json(err);
   }
