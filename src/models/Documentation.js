@@ -1,11 +1,15 @@
 const mongoose = require("mongoose");
 
 const DocumentationSchema = new mongoose.Schema({
-  name: {
+  title: {
     type: String,
     required: true,
   },
-  body: {
+  description: {
+    type: String,
+    required: false,
+  },
+  content: {
     type: String,
     required: true,
   },
