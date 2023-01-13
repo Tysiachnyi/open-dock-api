@@ -61,4 +61,19 @@ router.get("/", async (req, res) => {
   }
 });
 
+// DELETE PROJECT
+router.delete("/delete/:id", async (req, res) => {
+  try {
+    const project = await ProjectSchema.findById(req.params.id);
+    if (project.authorId === req.body.authorId) {
+      await project.delete();
+      res.status(200).json("Project has been deleted");
+    } else {
+      res.status(401).json("U can delete only your project");
+    }
+  } catch (error) {
+    res.status(500).json(error);
+  }
+});
+
 module.exports = router;

@@ -1,10 +1,9 @@
 const express = require("express");
 const auth = require("./auth");
 const authRoute = require("./src/routes/auth.js");
-const testRoute = require("./src/routes/test.js");
 const projectRoute = require("./src/routes/project.js");
 const connectToDB = require("./src/utils/config.js");
-const PORT = 7777;
+const PORT = 8080;
 
 // INIT APP
 const app = express();
@@ -19,6 +18,7 @@ app.use((req, res, next) => {
     "Access-Control-Allow-Methods",
     "GET, POST, PUT, DELETE, PATCH, OPTIONS"
   );
+
   next();
 });
 app.use(express.json());
@@ -28,7 +28,6 @@ app.get("/api/check", async (req, res) => {
 });
 
 app.use("/api/auth", authRoute);
-app.use("/api/test", testRoute);
 app.use("/api/project", projectRoute);
 
 // free endpoint

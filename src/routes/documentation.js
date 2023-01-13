@@ -46,7 +46,6 @@ router.get("/:id", async (req, res) => {
 // GET ALL PROJECT DOCUMENTATION
 router.get("/", async (req, res) => {
   try {
-    console.log(req.query.projectId);
     const documentation = await DocumentationSchema.find({
       projectId: { $eq: req.query.projectId },
     });
@@ -56,3 +55,20 @@ router.get("/", async (req, res) => {
     res.status(500).json(error);
   }
 });
+
+// DELETE DOCUMENTATION
+router.delete("/delete/:id", async (req, res) => {
+  try {
+    const documentation = await DocumentationSchema.findById(req.params.id);
+    if (documentation.authorId === req.body.authorId) {
+      await documentation.delete();
+      res.status(200).json("Documentation has been deleted");
+    } else {
+      res.status(401).json("U can delete only your doc");
+    }
+  } catch (error) {
+    res.status(500).json(error);
+  }
+});
+
+module.exports = router;
