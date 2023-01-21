@@ -5,10 +5,6 @@ const DocumentationSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  description: {
-    type: String,
-    required: false,
-  },
   content: {
     type: String,
     required: true,
