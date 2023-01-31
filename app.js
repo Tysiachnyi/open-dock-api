@@ -1,4 +1,5 @@
 const express = require("express");
+const cors = require("cors");
 const auth = require("./auth");
 const authRoute = require("./src/routes/auth.js");
 const projectRoute = require("./src/routes/project.js");
@@ -8,6 +9,9 @@ const PORT = 8080;
 // INIT APP
 const app = express();
 connectToDB();
+
+app.use(cors());
+
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader(
